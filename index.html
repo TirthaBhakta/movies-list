@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.20.0/dist/full.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('your-background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        header {
+            background-color: paleturquoise;
+            color: rgb(59, 6, 59);
+            padding: 10px 0;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        header:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-item {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .movie-item span {
+            color: #333;
+        }
+
+        .movie-item button {
+            margin-left: 10px;
+        }
+
+        .movie-item:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-rgb {
+            background: linear-gradient(to right, red, green, blue);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border: 2px solid transparent;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-rgb:hover {
+            background: linear-gradient(to right, red, green, blue);
+            color: white;
+            border: 2px solid white;
+        }
+
+        #clock {
+            font-size: 1.5rem;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="text-4xl font-semibold mb-4 text-4xl">My Movie List</h1>
+    </header>
+    <div class="container mx-auto p-8">
+        <div class="mb-6 text-black">
+            <input type="text" id="movieName" class="text-sky-400 w-full border p-4 rounded-lg text-lg" placeholder="Movie title">
+        </div>
+        <div class="mb-8">
+            <button id="addMovie" class="btn btn-rgb transform transition-transform hover:scale-105">Add Movie</button>
+        </div>
+        <div id="movieList">
+            <!-- Movies will be added here dynamically -->
+        </div>
+        <div id="clock">
+            <!-- Clock will be displayed here -->
+        </div>
+    </div>
+    <footer class="text-white">
+        <p>&copy; 2023 Movie List</p>
+    </footer>
+
+    <script>
+        // JavaScript to add and remove movies
+        document.addEventListener("DOMContentLoaded", function() {
+            const addMovieButton = document.getElementById("addMovie");
+            const movieNameInput = document.getElementById("movieName");
+            const movieList = document.getElementById("movieList");
+            const clock = document.getElementById("clock");
+
+            // Function to update the clock
+            function updateClock() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                clock.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+
+            // Update the clock every second
+            setInterval(updateClock, 1000);
+
+            addMovieButton.addEventListener("click", function() {
+                const movieName = movieNameInput.value.trim();
+                if (movieName !== "") {
+                    const movieItem = document.createElement("div");
+                    movieItem.className = "movie-item";
+                    const movieText = document.createElement("span");
+                    movieText.textContent = movieName;
+                    const watchButton = document.createElement("button");
+                    watchButton.textContent = "Watch";
+                    watchButton.className = "btn btn-primary";
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.className = "btn btn-error";
+                    deleteButton.addEventListener("click", function() {
+                        movieItem.remove();
+                    });
+                    movieItem.appendChild(movieText);
+                    movieItem.appendChild(watchButton);
+                    movieItem.appendChild(deleteButton);
+                    movieList.appendChild(movieItem);
+                    movieNameInput.value = "";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
